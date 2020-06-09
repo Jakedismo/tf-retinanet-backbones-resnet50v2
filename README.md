@@ -16,10 +16,10 @@ python setup.py install --user
 cd ..
 ```
 
-Install `tf-retinanet-backbones-resnet`:
+Install `tf-retinanet-backbones-resnet50v2`:
 
 ```
-git clone https://github.com/fizyr/tf-retinanet-backbones-resnet.git
+git clone https://github.com/Jakedismo/tf-retinanet-backbones-resnet50v2.git
 cd tf-retinanet-backbones-resnet
 python setup.py install --user
 cd ..
