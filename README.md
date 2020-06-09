@@ -1,4 +1,4 @@
-# TF-Retinanet-Backbones-Resnet
+# TF-Retinanet-Backbones-Resnet50v2
 
 Wrapper around Resnet implementation present in tf.keras, to make it compatible as backbone of
 [tf-retinanet](https://github.com/fizyr/tf-retinanet "tf-retinanet").
