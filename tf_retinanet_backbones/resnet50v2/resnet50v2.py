@@ -16,28 +16,28 @@ limitations under the License.
 import tensorflow as tf
 
 from tf_retinanet.backbones        import Backbone
-from tf_retinanet.utils.image      import preprocess_image
+#from tf_retinanet.utils.image      import preprocess_image
 from tf_retinanet.models.retinanet import retinanet
 
-from tensorflow.keras.applications import ResNet50
+from tensorflow.keras.applications import ResNet50V2
 
 
-class ResNet50Backbone(Backbone):
+class ResNet50V2Backbone(Backbone):
 	""" Describes backbone information and provides utility functions.
 	"""
 
 	def __init__(self, config):
-		super(ResNet50Backbone, self).__init__(config)
+		super(ResNet50V2Backbone, self).__init__(config)
 
 	def retinanet(self, *args, **kwargs):
 		""" Returns a retinanet model using the correct backbone.
 		"""
-		return resnet50_retinanet(*args, weights=self.weights, modifier=self.modifier, **kwargs)
+		return resnet50v2_retinanet(*args, weights=self.weights, modifier=self.modifier, **kwargs)
 
 	def validate(self):
 		""" Checks whether the backbone string is correct.
 		"""
-		allowed_backbones = ['resnet50']
+		allowed_backbones = ['resnet50v2']
 		backbone = self.backbone.split('_')[0]
 
 		if backbone not in allowed_backbones:
@@ -47,9 +47,10 @@ class ResNet50Backbone(Backbone):
 		""" Takes as input an image and prepares it for being passed through the network.
 		"""
 		# Caffe is the default preprocessing for Resnet in keras_application.
-		return preprocess_image(inputs, mode='caffe')
+		#return preprocess_image(inputs, mode='caffe')
+		return tf.keras.applications.resnet_v2.preprocess_input(inputs)
 
-def resnet50_retinanet(submodels, inputs=None, modifier=None, weights='imagenet', **kwargs):
+def resnet50v2_retinanet(submodels, inputs=None, modifier=None, weights='imagenet', **kwargs):
 	""" Creates a retinanet model using the ResNet50 backbone.
 	Arguments
 		submodels: RetinaNetSubmodels.
@@ -67,13 +68,14 @@ def resnet50_retinanet(submodels, inputs=None, modifier=None, weights='imagenet'
 			inputs = tf.keras.layers.Input(shape=(None, None, 3))
 
 	# Create the resnet backbone.
-	resnet = ResNet50(
+	resnet = ResNet50V2(
 		include_top=False,
 		weights=weights,
 		input_tensor=inputs,
 		input_shape=None,
 		pooling=None,
 		classes=None,
+		classifier_activation='softmax',
 		**kwargs
 	)
 
@@ -82,7 +84,7 @@ def resnet50_retinanet(submodels, inputs=None, modifier=None, weights='imagenet'
 		resnet = modifier(resnet)
 
 	# Get output layers.
-	layer_names = ["conv3_block4_out", "conv4_block6_out", "conv5_block3_out"]
+	layer_names = ["conv3_block4_1_relu", "conv4_block6_1_relu", "conv5_block2_1_relu"]
 	layer_outputs = [resnet.get_layer(name).output for name in layer_names]
 
 	return retinanet(inputs, layer_outputs, submodels, **kwargs)

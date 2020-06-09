@@ -13,18 +13,18 @@ See the License for the specific language governing permissions and
 limitations under the License.
 """
 
-from .resnet50 import ResNet50Backbone
+from .resnet50v2 import ResNet50V2Backbone
 from tf_retinanet.utils.config import set_defaults
 
 
-default_config = {'type': 'resnet50'}
+default_config = {'type': 'resnet50v2'}
 
 
 def from_config(config, **kwargs):
-	""" Create a ResNet backbone from a backbone configuration dict.
+	""" Create a ResNet50v2 backbone from a backbone configuration dict.
 	# Arguments
 		config: backbone configuration dict.
 	# Returns
 		backbone: ResNet backbone for tf-retinanet.
 	"""
-	return ResNet50Backbone(set_defaults(config, default_config), **kwargs)
+	return ResNet50V2Backbone(set_defaults(config, default_config), **kwargs)
