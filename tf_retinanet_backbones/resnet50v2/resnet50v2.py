@@ -51,14 +51,14 @@ class ResNet50V2Backbone(Backbone):
 		return tf.keras.applications.resnet_v2.preprocess_input(inputs)
 
 def resnet50v2_retinanet(submodels, inputs=None, modifier=None, weights='imagenet', **kwargs):
-	""" Creates a retinanet model using the ResNet50 backbone.
+	""" Creates a retinanet model using the ResNet50v2 backbone.
 	Arguments
 		submodels: RetinaNetSubmodels.
 		inputs:    The inputs to the network (defaults to a Tensor of shape (None, None, 3)).
 		modifier:  A function handler which can modify the backbone before using it in retinanet (this can be used to freeze backbone layers for example).
 		weights:   Weights for the backbone (default is imagenet weights).
 	Returns:
-		RetinaNet model with ResNet50 backbone.
+		RetinaNet model with ResNet50v2 backbone.
 	"""
 	# Choose default input.
 	if inputs is None:

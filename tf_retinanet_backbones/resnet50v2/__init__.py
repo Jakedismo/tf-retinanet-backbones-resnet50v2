@@ -25,6 +25,6 @@ def from_config(config, **kwargs):
 	# Arguments
 		config: backbone configuration dict.
 	# Returns
-		backbone: ResNet backbone for tf-retinanet.
+		backbone: ResNet50v2 backbone for tf-retinanet.
 	"""
 	return ResNet50V2Backbone(set_defaults(config, default_config), **kwargs)
